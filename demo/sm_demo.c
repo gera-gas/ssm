@@ -39,7 +39,7 @@ static SM_STATE( foo_state_0 )
 static SM_STATE( foo_state_1 )
 {
 	if(timer_foo > clock() ) {
-		/* break next actions and stay in foo_state_1 */
+		/* hold current state (foo_state_1) */
 		return SM_HOLD;
 	}
 
@@ -70,7 +70,7 @@ static SM_STATE(bar_state_0)
 static SM_STATE(bar_state_1)
 {
 	if (timer_bar > clock()) {
-		/* break next actions and stay in foo_state_1 */
+		/* hold current state (bar_state_1) */
 		return SM_HOLD;
 	}
 
