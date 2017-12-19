@@ -30,7 +30,7 @@ typedef struct state_machine_st
 /*
  * Possible values returned by state function.
  */
-#define SM_JUMP(v)  (&(v))         /** Jump to other processing state by function name */
+#define SM_JUMP(v)  ((void*)&(v))  /** Jump to other processing state by function name */
 #define SM_HOLD     ((void*)(0))   /** Hold current processing state.                  */
 #define SM_RESET    ((void*)(-1))  /** Finish processing and back to IDLE state.       */
 
