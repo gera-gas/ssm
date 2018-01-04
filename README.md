@@ -11,4 +11,4 @@ For graph creation you should ruby script from `script/create_graph.rb` with pat
     
     $ ruby create_graph.rb source_file_with_state_machine.c 
 
-Graph can created by web tool [WebGraphviz](http://www.webgraphviz.com/)
+Graph can created from `*.dot` file by web tool [WebGraphviz](http://www.webgraphviz.com/)
