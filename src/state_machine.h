@@ -13,7 +13,7 @@
  * @enum  smstate_t
  * @brief Various state in SM processing (returned from sm_start).
  */
-typedef enum smstate_st {
+typedef enum {
 	SM_STATE_IDLE,
 	SM_STATE_PROCESSING,
 	SM_STATE_COMPLETED
