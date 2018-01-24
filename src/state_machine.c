@@ -20,35 +20,43 @@ SM_STATE( sm_idle_state )
  * @param argin  : [in]  memory address of input parameters for state handlers.
  * @param argout : [out] memory address of output parameters for state handlers.
  *
- * @return.
+ * @retval SM_STATE_IDLE : State machine is in a IDLE state (sm_idle_state).
+ * @retval SM_STATE_PROCESSING : State machine is in a not IDLE state.
+ * @retval SM_STATE_COMPLETED : State machine walk all states and back to IDLE state.
  */
-static void sm_manager ( state_machine_t *sm, const void *argin, void *argout )
+static smstate_t sm_manager ( state_machine_t *sm, const void *argin, void *argout )
 {
-	void* result;
+	void* state;
+	smstate_t result = SM_STATE_PROCESSING;
 
 	do {
-		result = sm->current_state(argin, argout);
+		state = sm->current_state(argin, argout);
 
-		if(result == SM_HOLD) {
-			;
-		} else if (result == SM_RESET) {
-			sm->current_state = sm->initial_state;
+		if(state == SM_HOLD) {
+			if(state == &sm_idle_state) {
+				result = SM_STATE_IDLE;
+			}
+		} else if (state == SM_RESET) {
+			sm->current_state = &sm_idle_state;
+			result = SM_STATE_COMPLETED;
 		} else {
-			sm->current_state = result;
+			sm->current_state = state;
 		}
 
-	} while( (result != SM_HOLD && result != SM_RESET) && !(sm->flags & SM_FLAG_STEPMODE));
+	} while( (state != SM_HOLD && state != SM_RESET) && !(sm->flags & SM_FLAG_STEPMODE));
+
+	return result;
 }
 
-void sm_start(state_machine_t *sm, const void *argin, void *argout)
+smstate_t sm_start(state_machine_t *sm, const void *argin, void *argout)
 {
-	sm_manager(sm, argin, argout);
+	return sm_manager(sm, argin, argout);
 }
 
-void sm_force_start(state_machine_t *sm, const void *argin, void *argout)
+smstate_t sm_force_start(state_machine_t *sm, const void *argin, void *argout)
 {
 	sm_wakeup(sm);
-	sm_manager(sm, argin, argout);
+	return sm_manager(sm, argin, argout);
 }
 
 void sm_wakeup ( state_machine_t *sm )
@@ -56,9 +64,4 @@ void sm_wakeup ( state_machine_t *sm )
 	if( sm->current_state == &sm_idle_state ) {
 		sm->current_state = sm->initial_state;
 	}
-}
-
-bool sm_is_processing ( state_machine_t *sm )
-{
-	return sm->current_state != &sm_idle_state;
 }

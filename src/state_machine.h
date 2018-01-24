@@ -10,6 +10,16 @@
 #include <stdbool.h>
 
 /**
+ * @enum  smstate_t
+ * @brief Various state in SM processing (returned from sm_start).
+ */
+typedef enum smstate_st {
+	SM_STATE_IDLE,
+	SM_STATE_PROCESSING,
+	SM_STATE_COMPLETED
+} smstate_t;
+
+/**
  * @enum   smflag_t
  * @brief  Flags of state machine object.
  */
@@ -65,10 +75,9 @@ extern "C" {
 
 SM_STATE( sm_idle_state );
 
-void sm_start(state_machine_t *sm, const void *argin, void *argout);
-void sm_force_start(state_machine_t *sm, const void *argin, void *argout);
+smstate_t sm_start(state_machine_t *sm, const void *argin, void *argout);
+smstate_t sm_force_start(state_machine_t *sm, const void *argin, void *argout);
 void sm_wakeup( state_machine_t *sm );
-bool sm_is_processing ( state_machine_t *sm );
 
 #ifdef __cplusplus
 }
