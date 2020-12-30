@@ -1,6 +1,5 @@
 ## state_machine 
-Standalone state machine implementation.
-This is small state machine developed for using in any software project types C/C++ (embedded, Windows, etc).
+Standalone low-memory state machine implementation. This is small state machine developed for using in any software project types C/C++ (embedded, Windows, etc) and low memory MCU for multitask processing imitation. Ruby script for automatically generate graph on C state machine sources.
 
 ## how to use
 Simply paste sources of state machine implementation from `src` directory into your project.
